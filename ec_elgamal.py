@@ -55,7 +55,7 @@ def decode_ecc():
 
 def print_public_key():
     print('- Using public key: \n' + \
-            '(E): y^2 = x^3' + str(elliptic.a) + 'x + ' + str(elliptic.b) + '\n' + \
+            '(E): y^2 = x^3 + ' + str(elliptic.a) + 'x + ' + str(elliptic.b) + '\n' + \
             'p = ' + str(prime_number) + '\n' + \
             'Generator point P = ' + str(P) + '\n' + \
             'B = ' + str(B))
