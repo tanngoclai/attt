@@ -10,6 +10,8 @@ from random import randint
 
 p = 63658079635199111956084400808111488530041639455424124782351522677612092790273
 alpha = 5
+a = 1 #default private key
+beta = core.cal_power_mod(alpha,a,p)
 
 
 def encode_elgamal():
@@ -36,6 +38,29 @@ def decode_elgamal():
         x = y2*inverse_y_a % p
 
         core.decode_msg(x)
+
+    except:
+        print('- Invalid code') 
+
+
+def sig_elgamal(a):
+    msg = input('- Enter message: ')
+    x = core.encode_msg(msg)
+
+    k = randint(0, p-1)
+    print('- To create key, use random number k =', k)
+
+    gamma_elgamal = core.cal_power_mod(alpha,k,p)
+    sigma_elgamal = (x-a*gamma_elgamal)*core.inverse_number(k,p-1) % (p-1)
+
+    print('\n- Sign successfully, sig(x,k) =: ' + '\n(gamma,sigma) = (' + str(gamma_elgamal) + ', ' + str(sigma_elgamal) + ')')
+
+
+def ver_elgamal(x,gamma_elgamal,sigma_elgamal):
+    try:
+        y = int(input('- Enter signature y = '))
+
+        return (core.cal_power_mod(beta,gamma_elgamal,p)*core.cal_power_mod(gamma_elgamal,sigma_elgamal,p) - core.cal_power_mod(alpha,x,p)) % p == 0
 
     except:
         print('- Invalid code') 

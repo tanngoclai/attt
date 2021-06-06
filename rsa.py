@@ -15,6 +15,7 @@ n = p*q
 phi_n = (p-1)*(q-1)
 
 e = 1051 #default e
+d = core.inverse_number(e,phi_n)
 
 
 def encode_rsa():
@@ -35,27 +36,70 @@ def decode_rsa():
         print('- Invalid code') 
     
 
-def is_valid_e(e):
-    return math.gcd(e,phi_n) == 1
-    
+def sig_rsa(a):
+    msg = input('- Enter your name: ')
+    x = core.encode_msg(msg)
 
-if __name__ == '__main__':
+    print('- Sign successfully: sig(x) =', core.cal_power_mod(x,a,n))
+
+def ver_rsa(x,b):
     try:
-        e = int(input('- Enter e = '))
+        y = int(input('- Enter signature y = '))
 
-        if is_valid_e(e):
-            print('\n- Using public key is: \nn = ' + str(n) + '\ne = ' + str(e) + '\n')
-            d = core.inverse_number(e,phi_n)
-
-            req = input('- Encode RSA (1) or decode RSA (2) - 1 or 2: ')
-            if req == '1':
-                encode_rsa()
-            elif req == '2':
-                decode_rsa()
-            else:
-                print('- Please enter "1" or "2"')
-        else:
-            print('- Invalid: gcd(e,phi_n) is not 1, try again.')
+        return (core.cal_power_mod(y,b,n) - x) % n == 0
 
     except:
-        print('- Invalid number')  
+        print('- Invalid code') 
+
+
+def has_inverse_number(e):
+    return math.gcd(e,phi_n) == 1
+
+
+if __name__ == '__main__':
+    action = input('Encode/Decode (1) or Sign/Verify (2): 1 or 2: ')
+
+    if action == '1':
+        try:
+            e = int(input('- Enter e = '))
+
+            if has_inverse_number(e):
+                print('\n- Using public key is: (n,e) = ' + str(n) + ',' + str(e) + ')\n')
+                d = core.inverse_number(e,phi_n)
+
+                req = input('- Encode RSA (1) or decode RSA (2) - 1 or 2: ')
+                if req == '1':
+                    encode_rsa()
+                elif req == '2':
+                    decode_rsa()
+                else:
+                    print('- Please enter "1" or "2"')
+            else:
+                print('- Invalid: gcd(e,phi_n) is not 1, try again.')
+
+        except:
+            print('- Invalid number')  
+    
+    elif action == '2':
+        try:
+            a = int(input('- Enter private key a = '))
+
+            if has_inverse_number(a):
+                b = core.inverse_number(a,phi_n)
+                print('\n- Using public key is: (n,b) = ' + str(n) + ',' + str(b) + ')\n')
+
+                req = input('- Sign RSA (1) or Verify signature RSA (2) - 1 or 2: ')
+                if req == '1':
+                    sig_rsa(a)
+                elif req == '2':
+                    ver_rsa(b)
+                else:
+                    print('- Please enter "1" or "2"')
+            else:
+                print('- Invalid: gcd(a,phi_n) is not 1, try again.')
+
+        except:
+            print('- Invalid number') 
+
+    else:
+        print('- Please enter "1" or "2"')
