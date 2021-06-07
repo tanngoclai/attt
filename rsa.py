@@ -5,7 +5,6 @@ MSSV: 18020049
 
 
 import core 
-import math
 
 
 p = 78669127458061087247706989358483239190815578755986744778269251075444973560609
@@ -43,18 +42,15 @@ def sig_rsa(a):
     print('- Sign successfully: sig(x) =', core.cal_power_mod(x,a,n))
 
 
-def ver_rsa(y,b):
-    try:
-        x = core.cal_power_mod(y,b,n) % n
+def ver_rsa(msg,y,b):
+    x = core.cal_power_mod(y,b,n) % n
+    msg = core.decode_msg(msg)
 
+    if x == msg:
         core.decode_msg(x)
-
-    except:
-        print('- Invalid code') 
-
-
-def has_inverse_number(e):
-    return math.gcd(e,phi_n) == 1
+        print('Verify successfully.')
+    else:
+        print('Verify fail.')
 
 
 if __name__ == '__main__':
@@ -64,7 +60,7 @@ if __name__ == '__main__':
         try:
             e = int(input('- Enter e = '))
 
-            if has_inverse_number(e):
+            if core.have_inverse_number(e,phi_n):
                 print('\n- Using public key is: (n,e) = ' + str(n) + ',' + str(e) + ')\n')
                 d = core.inverse_number(e,phi_n)
 
@@ -88,7 +84,7 @@ if __name__ == '__main__':
             if req == '1':
                 a = int(input('- Enter private key a = '))
 
-                if has_inverse_number(a):
+                if core.have_inverse_number(a,phi_n):
                     b = core.inverse_number(a,phi_n)
                     print('\n- Using public key is: (n,b) = ' + str(n) + ',' + str(b) + ')\n')
                     sig_rsa(a)
@@ -98,9 +94,10 @@ if __name__ == '__main__':
 
             elif req == '2':
                 b = int(input('- Enter b in public key b = '))
-                y = int(input('- Enter signature y = '))
+                y = int(input('- Enter signature code y = '))
+                x = input('- Enter signature text x = ')
 
-                ver_rsa(y, b)
+                ver_rsa(x, y, b)
             else:
                 print('- Please enter "1" or "2"')
 
