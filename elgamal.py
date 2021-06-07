@@ -68,9 +68,9 @@ def ver_elgamal(msg,gamma_elgamal,sigma_elgamal):
 
     if res % p == 0:
         core.decode_msg(x)
-        print('Verify successfully.')
+        print('- Verify successfully.')
     else:
-        print('Verify fail.')
+        print('- Verify fail.')
 
 
 def print_public_key():

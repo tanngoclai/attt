@@ -4,7 +4,6 @@ MSSV: 18020049
 """
 
 
-from elgamal import decode_elgamal, encode_elgamal
 import core 
 import elliptic
 from random import randint

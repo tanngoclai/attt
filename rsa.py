@@ -48,9 +48,9 @@ def ver_rsa(msg,y,b):
 
     if x == msg:
         core.decode_msg(x)
-        print('Verify successfully.')
+        print('- Verify successfully.')
     else:
-        print('Verify fail.')
+        print('- Verify fail.')
 
 
 if __name__ == '__main__':
