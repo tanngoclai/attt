@@ -3,6 +3,7 @@ Full name: Lai Ngoc Tan
 MSSV: 18020049
 """
 
+import math
 
 def inverse_number(a,n):
     while a < 0:
@@ -29,6 +30,9 @@ def inverse_number(a,n):
         x = x + tmp
  
     return x
+
+def have_inverse_number(a,n):
+    return math.gcd(a,n) == 1
 
 
 def encode_msg(s):
