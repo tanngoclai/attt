@@ -68,8 +68,6 @@ def ver_ecdsa(g,Q):
                 u2Q = elliptic.multi(Q,u2)
                 tmp = elliptic.add(u1g,u2Q)
                 v = tmp[0] % n
-
-                print((h*w + r*w) % n)
                 
                 if v == r:
                     print('- Verify successfully.')

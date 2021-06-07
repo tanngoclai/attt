@@ -44,7 +44,7 @@ def sig_rsa(a):
 
 def ver_rsa(msg,y,b):
     x = core.cal_power_mod(y,b,n) % n
-    msg = core.decode_msg(msg)
+    msg = core.encode_msg(msg)
 
     if x == msg:
         core.decode_msg(x)
